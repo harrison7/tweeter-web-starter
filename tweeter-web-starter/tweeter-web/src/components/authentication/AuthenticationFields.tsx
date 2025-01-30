@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 
 interface Props {
-    onEnter: React.KeyboardEventHandler<HTMLInputElement>;
+    onEnter: (event: React.KeyboardEvent<HTMLElement>) => void;
+    alias: React.Dispatch<React.SetStateAction<string>>;
+    password: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AuthenticationFields = (props: Props) => {
-    const [alias, setAlias] = useState("");
-    const [password, setPassword] = useState("");
-
     return (
         <>
             <div className="form-floating">
@@ -18,7 +17,7 @@ const AuthenticationFields = (props: Props) => {
                 id="aliasInput"
                 placeholder="name@example.com"
                 onKeyDown={props.onEnter}
-                onChange={(event) => setAlias(event.target.value)}
+                onChange={(event) => props.alias(event.target.value)}
                 />
                 <label htmlFor="aliasInput">Alias</label>
             </div>
@@ -29,7 +28,7 @@ const AuthenticationFields = (props: Props) => {
                 id="passwordInput"
                 placeholder="Password"
                 onKeyDown={props.onEnter}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(event) => props.password(event.target.value)}
                 />
                 <label htmlFor="passwordInput">Password</label>
             </div>
