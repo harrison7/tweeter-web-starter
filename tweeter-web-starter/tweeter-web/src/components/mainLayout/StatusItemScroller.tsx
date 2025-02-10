@@ -4,6 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import useToastListener from "../toaster/ToastListenerHook";
 import StatusItem from "../statusItem/StatusItem";
 import useUserInfo from "../userInfo/UserInfoHook";
+import { StatusItemPresenter, StatusItemView } from "../../presenters/StatusItemPresenter";
 
 export const PAGE_SIZE = 10;
 
@@ -15,6 +16,7 @@ interface Props {
         lastItem: Status | null
     ) => Promise<[Status[], boolean]>;
     itemDescription: string;
+    presenterGenerator: (view: StatusItemView) => StatusItemPresenter;
 }
 
 const StatusItemScroller = (props: Props) => {
