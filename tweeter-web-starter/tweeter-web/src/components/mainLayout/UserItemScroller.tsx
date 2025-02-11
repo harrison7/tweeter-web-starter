@@ -4,7 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import UserItem from "../userItem/UserItem";
 import useToastListener from "../toaster/ToastListenerHook";
 import useUserInfo from "../userInfo/UserInfoHook";
-import { UserItemPresenter, UserItemView } from "../../presenters/UserItemPresenter";
+import { UserItemPresenter, UserItemView } from "../../presenters/userItem/UserItemPresenter";
 
 interface Props {
   presenterGenerator: (view: UserItemView) => UserItemPresenter;
@@ -15,7 +15,6 @@ const UserItemScroller = (props: Props) => {
   const [items, setItems] = useState<User[]>([]);
   const [newItems, setNewItems] = useState<User[]>([]);
   const [changedDisplayedUser, setChangedDisplayedUser] = useState(true);
-
   const { displayedUser, authToken } = useUserInfo();
 
   // Initialize the component whenever the displayed user changes
