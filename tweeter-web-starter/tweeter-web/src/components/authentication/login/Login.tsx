@@ -7,6 +7,7 @@ import { AuthToken, FakeData, User } from "tweeter-shared";
 import useToastListener from "../../toaster/ToastListenerHook";
 import AuthenticationFields from "../AuthenticationFields";
 import useUserInfo from "../../userInfo/UserInfoHook";
+import { loginPresenter, loginView } from "../../../presenters/user/loginPresenter";
 
 interface Props {
   originalUrl?: string;
@@ -18,7 +19,6 @@ const Login = (props: Props) => {
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
   const { updateUserInfo } = useUserInfo();
   const { displayErrorMessage } = useToastListener();
 
@@ -33,40 +33,16 @@ const Login = (props: Props) => {
   };
 
   const doLogin = async () => {
-    try {
-      setIsLoading(true);
-
-      const [user, authToken] = await login(alias, password);
-
-      updateUserInfo(user, user, authToken, rememberMe);
-
-      if (!!props.originalUrl) {
-        navigate(props.originalUrl);
-      } else {
-        navigate("/");
-      }
-    } catch (error) {
-      displayErrorMessage(
-        `Failed to log user in because of exception: ${error}`
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    presenter.doLogin(alias, password, rememberMe, props.originalUrl);
   };
 
-  const login = async (
-    alias: string,
-    password: string
-  ): Promise<[User, AuthToken]> => {
-    // TODO: Replace with the result of calling the server
-    const user = FakeData.instance.firstUser;
-
-    if (user === null) {
-      throw new Error("Invalid alias or password");
-    }
-
-    return [user, FakeData.instance.authToken];
+  const listener: loginView = {
+    displayErrorMessage: displayErrorMessage,
+    setIsLoading: setIsLoading,
+    updateUserInfo: updateUserInfo,
   };
+
+  const presenter = new loginPresenter(listener);
 
   const inputFieldGenerator = () => {
     return (
