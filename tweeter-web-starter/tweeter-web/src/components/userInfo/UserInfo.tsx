@@ -102,7 +102,7 @@ const UserInfo = () => {
                       className="btn btn-md btn-secondary me-1"
                       type="submit"
                       style={{ width: "6em" }}
-                      onClick={(event) => unfollowDisplayedUser(event)}
+                      onClick={(event) => presenter.unfollowDisplayedUser(event, authToken!, displayedUser!)}
                     >
                       {isLoading ? (
                         <span

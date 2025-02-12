@@ -32,12 +32,12 @@ export abstract class UserItemPresenter {
     }
 
     protected set lastItem(value: User | null) {
-        this.lastItem = value;
+        this._lastItem = value;
     }
 
     reset() {
-        this.lastItem = null;
-        this.hasMoreItems = true;
+        this._lastItem = null;
+        this._hasMoreItems = true;
     }
 
     public abstract loadMoreItems(authToken: AuthToken, userAlias: string): void;

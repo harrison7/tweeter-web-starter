@@ -110,47 +110,49 @@ export class UserPresenter {
         return [followerCount, followeeCount];
       };
     
-      const unfollowDisplayedUser = async (
-        event: React.MouseEvent
-      ): Promise<void> => {
+      public async unfollowDisplayedUser(
+        event: React.MouseEvent,
+        authToken: AuthToken,
+        displayedUser: User
+      ): Promise<void> {
         event.preventDefault();
     
         try {
-          setIsLoading(true);
-          displayInfoMessage(
-            `Unfollowing ${displayedUser!.name}...`,
+          this.view.setUserIsLoading(true);
+          this.view.displayInfoMessage(
+            `Unfollowing ${displayedUser.name}...`,
             0
           );
     
-          const [followerCount, followeeCount] = await unfollow(
-            authToken!,
-            displayedUser!
+          const [followerCount, followeeCount] = await this.unfollow(
+            authToken,
+            displayedUser
           );
     
-          setIsFollower(false);
-          setFollowerCount(followerCount);
-          setFolloweeCount(followeeCount);
+          this.view.setUserIsFollower(false);
+          this.view.setUserFollowerCount(followerCount);
+          this.view.setUserFolloweeCount(followeeCount);
         } catch (error) {
-          displayErrorMessage(
+          this.view.displayErrorMessage(
             `Failed to unfollow user because of exception: ${error}`
           );
         } finally {
-          clearLastInfoMessage();
-          setIsLoading(false);
+          this.view.clearLastInfoMessage();
+          this.view.setUserIsLoading(false);
         }
       };
     
-      const unfollow = async (
+      public async unfollow(
         authToken: AuthToken,
         userToUnfollow: User
-      ): Promise<[followerCount: number, followeeCount: number]> => {
+      ): Promise<[followerCount: number, followeeCount: number]> {
         // Pause so we can see the unfollow message. Remove when connected to the server
         await new Promise((f) => setTimeout(f, 2000));
     
         // TODO: Call the server
     
-        const followerCount = await getFollowerCount(authToken, userToUnfollow);
-        const followeeCount = await getFolloweeCount(authToken, userToUnfollow);
+        const followerCount = await this.userService.getFollowerCount(authToken, userToUnfollow);
+        const followeeCount = await this.userService.getFolloweeCount(authToken, userToUnfollow);
     
         return [followerCount, followeeCount];
       };
