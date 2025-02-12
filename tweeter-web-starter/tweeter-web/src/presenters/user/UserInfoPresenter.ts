@@ -2,18 +2,18 @@ import { AuthToken, User } from "tweeter-shared";
 import { UserService } from "../../model/service/UserService";
 
 export interface UserView {
-    setUserIsFollower: (isFollower: boolean) => void;
-    setUserFolloweeCount: (followeeCount: number) => void;
-    setUserFollowerCount: (followerCount: number) => void;
-    setUserIsLoading: (isLoading: boolean) => void;
-    displayErrorMessage: (message: string) => void;
-    displayInfoMessage: (message: string, duration: number) => void;
-    clearLastInfoMessage: () => void;
+  setUserIsFollower: (isFollower: boolean) => void;
+  setUserFolloweeCount: (followeeCount: number) => void;
+  setUserFollowerCount: (followerCount: number) => void;
+  setUserIsLoading: (isLoading: boolean) => void;
+  displayErrorMessage: (message: string) => void;
+  displayInfoMessage: (message: string, duration: number) => void;
+  clearLastInfoMessage: () => void;
 }
 
-export class UserPresenter {
-    private view: UserView;
+export class UserInfoPresenter {
     private userService: UserService;
+    private view: UserView;
 
     public constructor(view: UserView) {
         this.view = view;

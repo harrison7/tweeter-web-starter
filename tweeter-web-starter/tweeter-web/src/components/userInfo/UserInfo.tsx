@@ -1,10 +1,9 @@
 import "./UserInfo.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AuthToken, User } from "tweeter-shared";
 import useToastListener from "../toaster/ToastListenerHook";
 import useUserInfo from "./UserInfoHook";
-import { UserPresenter, UserView } from "../../presenters/user/UserPresenter";
+import { UserInfoPresenter, UserView } from "../../presenters/user/UserInfoPresenter";
 
 const UserInfo = () => {
   const [isFollower, setIsFollower] = useState(false);
@@ -42,7 +41,7 @@ const UserInfo = () => {
     clearLastInfoMessage: clearLastInfoMessage
   }
 
-  const presenter = new UserPresenter(listener);
+  const presenter = new UserInfoPresenter(listener);
 
   const switchToLoggedInUser = (event: React.MouseEvent): void => {
     event.preventDefault();
